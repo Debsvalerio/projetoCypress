@@ -4,7 +4,7 @@ module.exports = defineConfig({
     e2e: {
         viewportHeight: 1080,
         viewportWidth: 1920,
-        baseUrl: 'https://example.cypress.io',
+        baseUrl: 'https://conexaoqa.herouapp.com',
 
          //eslint-disable-next-line
     setupNodeEvents(on, config) {
