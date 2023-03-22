@@ -8,9 +8,20 @@ describe('API - Profile', () => {
                 method: 'GET',
                 url: '/api/profile',    
             }).then(respostaAPI => {
-                expect(respostaAPI.status).to.eq(200),
+                expect(respostaAPI.status).to.eq(200)
                 expect(respostaAPI.duration).to.be.lessThan(10000)
+
+                /* expect(respostaAPI.body[0].status).to.eq('Gerente de Testes')
+                expect(respostaAPI.body[0].user.name).to.eq('Pedro Guerra')
+                expect(respostaAPI.body[0].skills[0]).to.eq('Cypress')
+                expect(respostaAPI.body[0].skills).to.have.lengthOf(1)
+                expect(responseAPI.body[0].date).to.not.be.null
+                expect(respostaAPI.headers['x-powered-by']).to.eq('Express')*/
             })
         })
+    })
+    
+    context('perfil específico', () => {
+        
     })
 })
