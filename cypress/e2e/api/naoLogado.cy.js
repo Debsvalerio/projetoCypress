@@ -1,4 +1,6 @@
 describe('API - Profile', () => {
+
+    let urlPerfis = '/api/profile'
    
     context('todos os perfis', () => {
         
@@ -6,7 +8,7 @@ describe('API - Profile', () => {
             
             cy.request({
                 method: 'GET',
-                url: '/api/profile',    
+                url: urlPerfis,    
             }).then(({ status, duration, body, headers  }) => {
                 expect(status).to.eq(200)
                 expect(duration).to.be.lessThan(10000)
@@ -22,11 +24,13 @@ describe('API - Profile', () => {
     
     context('perfil específico', () => {
         
+        let urlPerfil = 'api/profile/user'
+
         it('seleciona um usuário inválido', () => {
             
             cy.request({
                 method:'GET',
-                url: '/api/profile/user/1',
+                url: `${urlPerfil}/1`,
                 failOnStatusCode: false
             }).then(({ status, body  }) => {
                 expect(status).to.eq(404)
@@ -39,7 +43,7 @@ describe('API - Profile', () => {
 
             cy.request({
                 method: 'GET',
-                url: `/api/profile/user/${usuarioId}`
+                url: `${urlPerfil}/${usuarioId}`
             }).then(({ status, body }) => {
                 expect(status).to.eq(200)
                 expect(body.user.name).to.eq('Pedro Guerra')
@@ -51,12 +55,12 @@ describe('API - Profile', () => {
 
             cy.request({
                 method: "GET",
-                url: '/api/profile'
+                url: urlPerfis
             }).then(({ body }) => {
                
                 cy.request({
                     method: "GET",
-                    url: `/api/profile/user/${body[1].user._id}`
+                    url: `${urlPerfil}/${body[1].user._id}`
                 }).then(({status, body}) => {
                     expect(status).to.eq(200)
                     expect(body.status).to.eq('Outro')
