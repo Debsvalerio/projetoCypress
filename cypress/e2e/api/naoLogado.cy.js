@@ -54,12 +54,12 @@ describe('API - Profile', () => {
         it('valida um usuário válido buscando na base', () => {
 
             cy.request({
-                method: "GET",
+                method: 'GET',
                 url: urlPerfis
             }).then(({ body }) => {
                
                 cy.request({
-                    method: "GET",
+                    method: 'GET',
                     url: `${urlPerfil}/${body[1].user._id}`
                 }).then(({status, body}) => {
                     expect(status).to.eq(200)
