@@ -1,12 +1,13 @@
+import { testeContratoPOSTPosts } from '../../fixtures/schema-POST-posts'
+import { testeContratoGETPosts } from '../../fixtures/contratos/schema-GET-Posts'
+
 describe('CRUD - Posts', () => {
-    
+
     let postId = ''
     let mensagem = 'Este post foi feito pelo Cypress'
-        
+    
     before(() => {
-
         cy.login(Cypress.env('email'), Cypress.env('password'))
-        
     })
 
     it('cria um post', () => {
@@ -26,25 +27,25 @@ describe('CRUD - Posts', () => {
         })
     })
 
+    it('lê o post', () => {
 
-    it('Lê o post', () => {
-        
         cy.request({
             method: 'GET',
             url: `/api/posts/${postId}`
         }).then(({ status, body }) => {
             expect(status).to.eq(200)
-            expect(body).to.eq(mensagem)
+            expect(body.text).to.eq(mensagem)
             expect(body.likes).to.have.lengthOf(0)
-        })   
-        
+
+            cy.testeContrato(testeContratoGETPosts, body)
+        })
     })
 
-    it('Atualiza o post', () => {
-
+    it('atualiza o post', () => {
+        
         cy.request({
             method: 'PUT',
-            url: `/api/posts/${postId}`
+            url: `/api/posts/like/${postId}`
         }).then(({ status }) => {
             expect(status).to.eq(200)
 
@@ -55,26 +56,24 @@ describe('CRUD - Posts', () => {
                 expect(body.likes).to.have.lengthOf(1)
             })
         })
-        
     })
 
-    it('Deleta o post', () => {
+    it('deleta o post', () => {
         
         cy.request({
             method: 'DELETE',
             url: `/api/posts/${postId}`
         }).then(({ status, body }) => {
             expect(status).to.eq(200)
-            expect(body).to.eq('Post removido')
+            expect(body.msg).to.eq('Post removido')
 
             cy.request({
                 method: 'GET',
                 url: `/api/posts/${postId}`,
-                failOnStatus: false
+                failOnStatusCode: false
             }).then(({ status }) => {
                 expect(status).to.eq(404)
             })
         })
-
     })
 })
